@@ -1,0 +1,1 @@
+.category-admin .admin-field:has([data-field="priceUsd"]),.category-admin .admin-field:has([data-field="oldPriceUsd"]),.category-admin [data-advanced-usd],.category-admin [data-advanced-old-usd]{display:none!important}
