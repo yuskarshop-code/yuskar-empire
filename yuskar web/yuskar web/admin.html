@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Room | Yuskar Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="enhancements.css">
+  <link rel="stylesheet" href="admin-media.css">
+  <link rel="stylesheet" href="admin-redesign.css">
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* Login Overlay Style */
+    #auth-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #0f172a; display: flex; justify-content: center; align-items: center; z-index: 9999;
+    }
+    .auth-card {
+      background: #1e293b; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3); color: #fff; text-align: center;
+    }
+    .auth-card input {
+      width: 100%; padding: 12px; margin: 10px 0; background: #0f172a; border: 1px solid #334155;
+      color: #fff; border-radius: 6px;
+    }
+    .auth-card button {
+      width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px;
+    }
+    .auth-card button:hover { background: #1d4ed8; }
+    #auth-error { color: #ef4444; font-size: 14px; margin-top: 10px; }
+  </style>
+</head>
+<body class="admin-body category-admin">
+
+  <!-- LOGIN OVERLAY (Security) -->
+  <div id="auth-overlay">
+    <div class="auth-card">
+      <h2>Yuskar Admin Login</h2>
+      <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;">Injiza konti yawe ya Supabase kugirango winjire</p>
+      <input type="email" id="admin-email" placeholder="Admin Email">
+      <input type="password" id="admin-password" placeholder="Password">
+      <button id="login-btn">Injira (Login)</button>
+      <div id="auth-error"></div>
+    </div>
+  </div>
+
+  <header class="admin-header">
+    <a class="brand" href="index.html"><img class="brand-logo" src="logo.png" alt="Yuskar Empire" style="mix-blend-mode:screen"></a>
+    <div>
+      <span id="current-admin-user" style="color: #fff; margin-right: 15px; font-size: 14px;"></span>
+      <button id="logout-btn" style="background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Logout</button>
+      <a href="index.html" style="margin-left: 15px;">View public website ↗</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <p>Control room</p>
+      <button class="admin-tab active" data-admin-tab="overview">Dashboard</button>
+      <button class="admin-tab" data-admin-tab="home">Home & media</button>
+      <button class="admin-tab" data-admin-tab="contact">Contact channels</button>
+      <button class="admin-tab" data-admin-tab="motors">Motors</button>
+      <button class="admin-tab" data-admin-tab="buildings">Buildings</button>
+      <button class="admin-tab" data-admin-tab="plots">Plots</button>
+      <button class="admin-tab" data-admin-tab="fashion">Fashion</button>
+      <button class="admin-tab" data-admin-tab="chat">Chat</button>
+      <button class="admin-tab" data-admin-tab="orders">Orders</button>
+      <button class="admin-tab" data-admin-tab="payments">Payment Settings</button>
+    </aside>
+
+    <main class="admin-main">
+      <h1>Run the empire.</h1>
+      <p class="admin-intro">Choose one category to edit only what belongs to it.</p>
+      <div class="admin-status" id="admin-status">Saved to Supabase.</div>
+
+      <section class="admin-section category-manager active" data-admin-section="overview">
+        <div class="category-header"><div><p class="eyebrow">Control room</p><h2>Dashboard</h2></div><p>Manage the public experience securely with Supabase backend.</p></div>
+        <div class="metric-grid">
+          <div class="metric-card"><span class="eyebrow">Departments</span><strong>5</strong></div>
+          <div class="metric-card"><span class="eyebrow">Customer orders</span><strong id="admin-order-count">0</strong></div>
+          <div class="metric-card"><span class="eyebrow">Catalog items</span><strong id="admin-item-count">0</strong></div>
+        </div>
+      </section>
+
+      <!-- UMWELERO W'AHWO GUSHUSHANYA GAHUNDA Y'UBWISHYU (PAYMENT NOTICE BOARD SETTINGS) -->
+      <section class="admin-section category-manager" data-admin-section="payments">
+        <div class="category-header">
+          <div><p class="eyebrow">Financials</p><h2>Payment Notice Board</h2></div>
+          <p>Hindura ubutumwa n'amabwiriza abakiriya babona mbere y'uko bohererezwa kuri WhatsApp.</p>
+        </div>
+        <div class="category-editor active" style="background: #1e293b; padding: 20px; border-radius: 8px; color: white;">
+          <label style="display:block; margin-bottom: 8px;">Ubutumwa bugaragara kuri Notice Board:</label>
+          <textarea id="payment-notice-text" rows="5" style="width:100%; padding: 10px; background: #0f172a; color: white; border: 1px solid #334155; border-radius: 6px;" placeholder="Andika hano ubutumwa... urugero: 'Nyuma yo kwishyura, nyamuneka twoherereze screenshot kuri WhatsApp yacu...'"></textarea>
+          <button id="save-notice-btn" style="margin-top: 15px; padding: 10px 20px; background: #22c55e; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Bika Ubutumwa (Save Notice)</button>
+        </div>
+      </section>
+
+      <!-- Ibindi bisigaye bya Sections -->
+      <section class="admin-section category-manager" data-admin-section="home"><div class="category-header"><div><p class="eyebrow">Site-wide</p><h2>Home & media</h2></div></div><div id="category-home-editor" class="category-editor active"></div></section>
+      <section class="admin-section category-manager" data-admin-section="contact"><div class="category-header"><div><p class="eyebrow">Customer contact</p><h2>Contact channels</h2></div></div><div id="category-contact-editor" class="category-editor active"></div></section>
+      <section class="admin-section category-manager" data-admin-section="motors"><div class="category-header"><div><p class="eyebrow">Department 01</p><h2>Motors</h2></div><p>Buy: 30% advance, 70% in 36 days. Rent: Full price + 50k RWF refundable commission.</p></div><div id="category-motors-editor" class="category-editor active"></div></section>
+      <section class="admin-section category-manager" data-admin-section="buildings"><div class="category-header"><div><p class="eyebrow">Department 02</p><h2>Buildings</h2></div><p>Support team appointments required.</p></div><div id="category-buildings-editor" class="category-editor active"></div></section>
+      <section class="admin-section category-manager" data-admin-section="plots"><div class="category-header"><div><p class="eyebrow">Department 03</p><h2>Plots</h2></div><p>Payment code, visit time & location info.</p></div><div id="category-plots-editor" class="category-editor active"></div></section>
+      <section class="admin-section category-manager" data-admin-section="fashion"><div class="category-header"><div><p class="eyebrow">Department 04</p><h2>Fashion</h2></div><p>Direct bank account / code payment view.</p></div><div id="category-fashion-editor" class="category-editor active"></div></section>
+      <section class="admin-section category-manager" data-admin-section="chat"><div class="category-header"><div><p class="eyebrow">Customer conversations</p><h2>Chat</h2></div></div><div id="category-chat-editor" class="category-editor active"></div></section>
+      <section class="admin-section category-manager" data-admin-section="orders"><div class="category-header"><div><p class="eyebrow">Customer activity</p><h2>Orders</h2></div></div><div id="category-orders-editor" class="category-editor active"></div></section>
+    </main>
+  </div>
+
+  <!-- SUPABASE CONNECTION & ADMIN SCRIPT -->
+  <script>
+    // 1. Shyiramo amakuru yawe ya Supabase (URL na Anon Key)
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+    
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 2. Gucunga Security & Login
+    const authOverlay = document.getElementById('auth-overlay');
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const emailInput = document.getElementById('admin-email');
+    const passwordInput = document.getElementById('admin-password');
+    const authError = document.getElementById('auth-error');
+    const currentUserSpan = document.getElementById('current-admin-user');
+
+    async function checkUser() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        authOverlay.style.display = 'none';
+        currentUserSpan.textContent = session.user.email;
+        loadAdminData();
+      } else {
+        authOverlay.style.display = 'flex';
+      }
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      authError.textContent = '';
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        authError.textContent = error.message;
+      } else {
+        authOverlay.style.display = 'none';
+        checkUser();
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      location.reload();
+    });
+
+    // 3. Gukora ku byerekeye Payment Notice Board muri Supabase
+    async function loadAdminData() {
+      // Gukurura ubutumwa bwa Payment Notice
+      const { data, error } = await supabaseClient
+        .from('site_settings')
+        .select('*')
+        .eq('key', 'payment_notice')
+        .single();
+      
+      if (data) {
+        document.getElementById('payment-notice-text').value = data.value || '';
+      }
+    }
+
+    document.getElementById('save-notice-btn').addEventListener('click', async () => {
+      const noticeText = document.getElementById('payment-notice-text').value;
+      const { error } = await supabaseClient
+        .from('site_settings')
+        .upsert({ key: 'payment_notice', value: noticeText });
+
+      const status = document.getElementById('admin-status');
+      if (error) {
+        status.textContent = 'Error saving notice!';
+        status.style.background = '#ef4444';
+      } else {
+        status.textContent = 'Payment notice saved successfully!';
+        status.style.background = '#22c55e';
+      }
+      setTimeout(() => { status.style.background = ''; }, 3000);
+    });
+
+    // Tangira ureba niba umukoresha yinjiriye
+    checkUser();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

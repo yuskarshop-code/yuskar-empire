@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Room | Yuskar Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="enhancements.css">
+  <link rel="stylesheet" href="admin-media.css">
+  <link rel="stylesheet" href="admin-redesign.css">
+  <style>
+    .admin-auth-backdrop {
+      position: fixed; inset: 0; z-index: 100; background: #0f172a; display: grid; place-items: center; padding: 20px;
+    }
+    .admin-auth-card {
+      width: min(430px, 100%); background: #1e293b; padding: 36px; box-shadow: 0 24px 70px rgba(0,0,0,.25); border-radius: 12px; color: #fff; text-align: center;
+    }
+    .admin-auth-card h1 { font-size: 32px; margin: 0 0 10px; font-family: 'Playfair Display', serif; }
+    .admin-auth-card p { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+    .admin-auth-card input {
+      width: 100%; border: 1px solid #334155; background: #0f172a; padding: 13px; font: 14px 'DM Sans', sans-serif; color: #fff; border-radius: 6px; margin: 10px 0;
+    }
+    .admin-auth-card button {
+      width: 100%; border: 0; background: #2563eb; color: white; padding: 14px; margin-top: 8px; font: 700 12px 'DM Sans', sans-serif; cursor: pointer; border-radius: 6px;
+    }
+    #auth-error { min-height: 18px; color: #ef4444; font-size: 12px !important; margin-top: 10px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
+    .metric-card { background: #1e293b; padding: 24px; border-radius: 10px; border: 1px solid #334155; color: #fff; }
+    .metric-card .eyebrow { color: #94a3b8; font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 8px; }
+    .metric-card strong { font-size: 28px; font-family: 'Playfair Display', serif; }
+    .admin-section { display: none !important; }
+    .admin-section.active { display: block !important; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .form-group label { font-size: 14px; font-weight: 500; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 10px; background: #0f172a; color: white; border: 1px solid #334155; border-radius: 6px;
+    }
+  </style>
+</head>
+<body class="admin-body category-admin">
+
+  <!-- LOGIN OVERLAY -->
+  <div class="admin-auth-backdrop" id="auth-overlay">
+    <div class="admin-auth-card">
+      <h1>Yuskar Admin</h1>
+      <p>Injiza konti yawe ya Supabase kugirango winjire</p>
+      <input type="email" id="admin-email" placeholder="Admin Email">
+      <input type="password" id="admin-password" placeholder="Password">
+      <button id="login-btn">Injira (Login)</button>
+      <div id="auth-error"></div>
+    </div>
+  </div>
+
+  <header class="admin-header">
+    <a class="brand" href="index.html"><span>Yuskar Empire</span></a>
+    <div>
+      <span id="current-admin-user" style="color: #fff; margin-right: 15px; font-size: 14px;"></span>
+      <button id="logout-btn" style="background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Logout</button>
+      <a href="index.html" style="margin-left: 15px; color: #fff;">View public website ↗</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <p>Control room</p>
+      <button class="admin-tab active" data-tab="overview">Dashboard Analysis</button>
+      <button class="admin-tab" data-tab="products-manage">Manage Products & Services</button>
+      <button class="admin-tab" data-tab="sections-manage">Edit Page Banners & Sections</button>
+      <button class="admin-tab" data-tab="chat">Chat Inbox</button>
+    </aside>
+
+    <main class="admin-main">
+      <h1>Run the empire.</h1>
+      
+      <!-- DASHBOARD OVERVIEW -->
+      <section class="admin-section active" id="sec-overview">
+        <h2>Dashboard Analytics</h2>
+        <div class="metric-grid">
+          <div class="metric-card"><span class="eyebrow">Customer Orders</span><strong id="admin-order-count">0</strong></div>
+          <div class="metric-card"><span class="eyebrow">Catalog Items</span><strong id="admin-item-count">0</strong></div>
+          <div class="metric-card"><span class="eyebrow">Total Chats</span><strong id="admin-chat-count">0</strong></div>
+        </div>
+      </section>
+
+      <!-- MANAGE PRODUCTS -->
+      <section class="admin-section" id="sec-products-manage">
+        <h2>Ongeramo Igicuruzwa cyangwa Service Nshya</h2>
+        <div style="background: #1e293b; padding: 25px; border-radius: 8px; color: white; max-width: 600px; margin-top: 20px;">
+          <form id="addProductForm" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-group">
+              <label>Izina:</label>
+              <input type="text" id="prodTitle" required>
+            </div>
+            <div class="form-group">
+              <label>Ishami (Category):</label>
+              <select id="prodCategory" required>
+                <option value="">-- Hitamo Ishami --</option>
+                <option value="fashion">Fashion</option>
+                <option value="motor">Motors</option>
+                <option value="building">Buildings</option>
+                <option value="plot">Plots</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Igiciro (RWF):</label>
+              <input type="number" id="prodPrice" required>
+            </div>
+            <div class="form-group">
+              <label>Ibisobanuro:</label>
+              <textarea id="prodDesc" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Ifoto:</label>
+              <input type="file" id="prodImage" accept="image/*" required>
+            </div>
+            <button type="submit" style="padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Bika muri Supabase</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- EDIT PAGE SECTIONS & BANNERS (TAB NSHYA) -->
+      <section class="admin-section" id="sec-sections-manage">
+        <h2>Edit Page Banners & Section Images</h2>
+        <p style="color: #94a3b8; margin-bottom: 20px;">Hindura amafoto n'umutwe w'amapaji (Hero section/Banners) ku mbuga zose.</p>
+        
+        <div style="background: #1e293b; padding: 25px; border-radius: 8px; color: white; max-width: 600px;">
+          <form id="updateSectionForm" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-group">
+              <label>Hitamo Paji cyangwa Section wifuza guhindura:</label>
+              <select id="sectionTarget" required>
+                <option value="">-- Hitamo Page Section --</option>
+                <option value="home_hero">Home Page - Main Hero Banner</option>
+                <option value="fashion_hero">Fashion Page - Top Banner Image</option>
+                <option value="motors_hero">Motors Page - Top Banner Image</option>
+                <option value="buildings_hero">Buildings Page - Top Banner Image</option>
+                <option value="plots_hero">Plots Page - Top Banner Image</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Umutwe / Title Nshya ya Section:</label>
+              <input type="text" id="sectionTitle" placeholder="Urugero: Welcome to Yuskar Luxury Motors">
+            </div>
+
+            <div class="form-group">
+              <label>Ubutumwa buherekeza (Subtitle / Description):</label>
+              <textarea id="sectionSubtitle" rows="2" placeholder="Urugero: Find the best land and cars in Rwanda..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Hitamo Ifoto Nshya ya Banner (Image File):</label>
+              <input type="file" id="sectionImage" accept="image/*" required>
+            </div>
+
+            <button type="submit" style="padding: 12px; background: #22c55e; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Update Section Image</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- CHAT INBOX -->
+      <section class="admin-section" id="sec-chat">
+        <h2>Chat Inbox</h2>
+        <div style="background: #1e293b; padding: 20px; border-radius: 8px; color: white; margin-top: 20px;">
+          <div id="admin-chat-list" style="max-height: 250px; overflow-y: auto; border: 1px solid #334155; padding: 10px; margin-bottom: 15px; background: #0f172a; border-radius: 6px;">
+              <p style="color: #94a3b8;">Gukurura ubutumwa...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { supabase, uploadProductImage, saveProduct, fetchOrders } from './supabaseClient.js';
+
+    const authOverlay = document.getElementById('auth-overlay');
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const emailInput = document.getElementById('admin-email');
+    const passwordInput = document.getElementById('admin-password');
+    const authError = document.getElementById('auth-error');
+    const currentUserSpan = document.getElementById('current-admin-user');
+
+    const ALLOWED_ADMIN_EMAIL = 'yuskarshop@gmail.com';
+
+    // Tabs switching
+    const tabs = document.querySelectorAll('.admin-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        const targetSec = document.getElementById(`sec-${tab.getAttribute('data-tab')}`);
+        if (targetSec) targetSec.classList.add('active');
+      });
+    });
+
+    async function checkAdminSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { authOverlay.style.display = 'grid'; return; }
+      if (session.user.email !== ALLOWED_ADMIN_EMAIL) {
+        alert('Uru rubuga rugengwa n’umuntu umwe wenyine!');
+        await supabase.auth.signOut();
+        authOverlay.style.display = 'grid';
+        return;
+      }
+      authOverlay.style.display = 'none';
+      currentUserSpan.textContent = session.user.email;
+      initDashboard();
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      authError.textContent = '';
+      const { error } = await supabase.auth.signInWithPassword({ email: emailInput.value.trim(), password: passwordInput.value.trim() });
+      if (error) authError.textContent = error.message;
+      else checkAdminSession();
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      location.reload();
+    });
+
+    async function initDashboard() {
+      try {
+        const orders = await fetchOrders();
+        if (orders) document.getElementById('admin-order-count').textContent = orders.length;
+
+        const { count: productCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
+        if (productCount !== null) document.getElementById('admin-item-count').textContent = productCount;
+
+        const { count: chatCount } = await supabase.from('chat_messages').select('*', { count: 'exact', head: true });
+        if (chatCount !== null) document.getElementById('admin-chat-count').textContent = chatCount;
+      } catch (e) { console.error(e); }
+    }
+
+    // Product Upload
+    const productForm = document.getElementById('addProductForm');
+    productForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        alert('Tegereza gato...');
+        const imageUrl = await uploadProductImage(document.getElementById('prodImage').files[0]);
+        await saveProduct({
+          title: document.getElementById('prodTitle').value,
+          category: document.getElementById('prodCategory').value,
+          price: parseFloat(document.getElementById('prodPrice').value),
+          description: document.getElementById('prodDesc').value,
+          image_url: imageUrl
+        });
+        alert('Byabitswe neza muri Supabase!');
+        productForm.reset();
+        initDashboard();
+      } catch (err) { alert('Byanze: ' + err.message); }
+    });
+
+    // Section Banner Update
+    const sectionForm = document.getElementById('updateSectionForm');
+    sectionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        alert('Tegereza, kohereza ifoto nshya ya Banner...');
+        const sectionKey = document.getElementById('sectionTarget').value;
+        const title = document.getElementById('sectionTitle').value;
+        const subtitle = document.getElementById('sectionSubtitle').value;
+        const imageFile = document.getElementById('sectionImage').files[0];
+
+        const imageUrl = await uploadProductImage(imageFile);
+
+        const { error } = await supabase
+          .from('page_sections')
+          .upsert({ 
+            section_key: sectionKey, 
+            title: title, 
+            subtitle: subtitle, 
+            image_url: imageUrl 
+          }, { onConflict: 'section_key' });
+
+        if (error) throw error;
+
+        alert('Banner na Section Image byahinduwe neza muri Supabase!');
+        sectionForm.reset();
+      } catch (err) {
+        alert('Byanze guhinduka: ' + err.message);
+      }
+    });
+
+    checkAdminSession();
+  </script>
+</body>
+</html>
