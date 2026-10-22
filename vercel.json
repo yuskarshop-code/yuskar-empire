@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/motors", "destination": "/motor-inventory.html" },
+    { "source": "/buildings", "destination": "/buildings-services.html" },
+    { "source": "/plots", "destination": "/plots-opportunities.html" },
+    { "source": "/fashion", "destination": "/fashion-shop.html" }
+  ]
+}
