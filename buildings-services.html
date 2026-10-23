@@ -13,10 +13,45 @@
   <link rel="stylesheet" href="property.css">
   <style>
     .property-hero {
-      position: relative;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.5s ease-in-out;
+      position: relative; height: 50vh; min-height: 320px; background-size: cover; background-position: center; background-color: #0f172a;
+    }
+    .banner-info-section {
+      background: #0f172a; color: #fff; padding: 35px 20px; text-align: center; border-bottom: 1px solid #1e293b; display: none;
+    }
+    .banner-info-section h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(26px, 4vw, 38px); margin: 0 0 10px; color: #f8fafc;
+    }
+    .banner-info-section p { font-size: 14px; color: #94a3b8; max-width: 650px; margin: 0 auto; }
+    
+    /* FASHION STYLE NAVIGATION BAR FOR CATEGORIES */
+    .fashion-style-nav {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin: 30px 0 20px;
+      overflow-x: auto;
+    }
+    .fashion-style-nav a {
+      text-decoration: none;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    .fashion-style-nav a:hover {
+      color: #0f172a;
+    }
+    .fashion-style-nav a.active {
+      color: #0f172a;
+      font-weight: 700;
+      border-bottom-color: #0f172a;
     }
   </style>
 </head>
@@ -35,20 +70,19 @@
   </header>
 
   <main>
-    <section class="property-hero" id="buildings-hero-sec">
-      <div class="shell">
-        <p class="eyebrow light">Yuskar Buildings / Services</p>
-        <h1 id="buildings-title">Build something<br><i>that lasts.</i></h1>
-        <p id="buildings-copy">Bring your next space from a first idea to a finished place with a team that understands the details.</p>
-      </div>
+    <section class="property-hero" id="buildings-hero-sec"></section>
+    <section class="banner-info-section" id="buildings-banner-info">
+      <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; margin-bottom: 8px;">Yuskar Buildings / Services</p>
+      <h1 id="buildings-title">Build something that lasts.</h1>
+      <p id="buildings-copy">Bring your next space from a first idea to a finished place with a team that understands the details.</p>
     </section>
 
     <section class="property-section shell">
-      <div class="property-toolbar">
-        <p>Architecture, design and guidance for your next build.</p>
+      <div class="fashion-style-nav" id="buildings-tabs" role="tablist">
+        <a class="active" data-mode="all" href="#">All Buildings</a>
       </div>
 
-      <div id="buildings-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 32px;"></div>
+      <div id="buildings-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; margin-top: 32px;"></div>
     </section>
   </main>
 
@@ -56,14 +90,13 @@
     <div class="footer-top">
       <div class="brand-block">
         <a class="brand" href="index.html"><span class="brand-mark">Y</span><span>Yuskar <em>Empire</em></span></a>
-        <p>Mobility, spaces, land and style.<br>All under one roof.</p>
+        <p>Mobility, spaces, land and style.<br>All under one roof[cite: 3].</p>
       </div>
       <div class="footer-contact">
         <h3>Contact</h3>
         <a href="mailto:yuskarshop@gmail.com">yuskarshop@gmail.com</a>
         <a href="https://wa.me/250781652135" target="_blank" rel="noreferrer">WhatsApp</a>
         <span>+250 795 153 994</span>
-        <span>+250 726 134 041</span>
       </div>
     </div>
     <div class="footer-bottom">
@@ -76,89 +109,79 @@
   <script type="module">
     import { supabase } from './supabaseClient.js';
 
-    // DYNAMIC HERO BANNER LOADER
     async function loadHeroBanner() {
       try {
-        const { data } = await supabase
-          .from('page_sections')
-          .select('*')
-          .eq('section_key', 'buildings_hero')
-          .single();
-
+        const { data } = await supabase.from('page_sections').select('*').eq('section_key', 'buildings_hero').single();
         if (data) {
-          if (data.title) document.getElementById('buildings-title').innerHTML = data.title;
-          if (data.subtitle) document.getElementById('buildings-copy').textContent = data.subtitle;
-          if (data.image_url) {
-            document.getElementById('buildings-hero-sec').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${data.image_url}')`;
+          if (data.image_url) document.getElementById('buildings-hero-sec').style.backgroundImage = `url('${data.image_url}')`;
+          if (data.title || data.subtitle) {
+            if (data.title) document.getElementById('buildings-title').innerHTML = data.title;
+            if (data.subtitle) document.getElementById('buildings-copy').textContent = data.subtitle;
+            document.getElementById('buildings-banner-info').style.display = 'block';
           }
         }
-      } catch (e) {
-        console.error("Hero banner error:", e);
-      }
+      } catch (e) { console.error(e); }
     }
     loadHeroBanner();
 
+    let allBuildings = [];
     const PHONE_WHATSAPP = "250781652135";
 
-    async function loadBuildingsServices() {
-        const grid = document.getElementById('buildings-grid');
-        grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666;">Gukurura amakuru ya Services muri Database...</p>';
+    async function loadDynamicCategoriesAndBuildings() {
+      const tabsContainer = document.getElementById('buildings-tabs');
+      const grid = document.getElementById('buildings-grid');
 
-        const { data: products, error } = await supabase
-            .from('products')
-            .select('*')
-            .ilike('category', '%building%');
-
-        if (error || !products || products.length === 0) {
-            grid.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                    <p style="color: #666; font-size: 16px; margin-bottom: 10px;">Nta service ya Buildings irashyirwaho muri Database.</p>
-                    <a href="admin.html" style="color: #2563eb; text-decoration: underline; font-weight: bold;">Jya muri Admin Panel wongeramo service ya mbere ↗</a>
-                </div>
-            `;
-            return;
-        }
-
-        grid.innerHTML = '';
-        products.forEach(prod => {
-            const waMessage = encodeURIComponent(`Mwaramutse/Mwiriwe! Nshaka kubaza ibyerekeye service ya: "${prod.title}" (Price: RWF ${prod.price}).`);
-            const waUrl = `https://wa.me/${PHONE_WHATSAPP}?text=${waMessage}`;
-
-            grid.innerHTML += `
-                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 18px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <div style="width: 100%; height: 200px; background: #f9f9f9; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 6px;">
-                            <img src="${prod.image_url || 'https://via.placeholder.com/150'}" alt="${prod.title}" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
-                        </div>
-                        <h4 style="margin: 12px 0 6px; font-size: 19px; color: #111;">${prod.title}</h4>
-                        <p style="color: #666; font-size: 13px; margin-bottom: 12px; line-height: 1.4;">${prod.description || ''}</p>
-                        <p style="font-weight: bold; color: #111; font-size: 16px; margin-bottom: 15px;">Starting from RWF ${prod.price}</p>
-                    </div>
-                    
-                    <div style="display: flex; gap: 8px; flex-direction: column;">
-                        <a href="${waUrl}" target="_blank" style="background: #25D366; color: white; text-align: center; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                            💬 Vugana n'ubishinzwe kuri WhatsApp
-                        </a>
-                        <button onclick="openSiteChat('${prod.title}')" style="background: #111; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer;">
-                            ✉️ Chat on Site
-                        </button>
-                    </div>
-                </div>
-            `;
+      const { data: cats } = await supabase.from('categories').select('*').eq('department', 'buildings');
+      if (cats && cats.length > 0) {
+        tabsContainer.innerHTML = '<a class="active" data-mode="all" href="#">All Buildings</a>';
+        cats.forEach(c => {
+          tabsContainer.innerHTML += `<a data-mode="${c.name.toLowerCase()}" href="#">${c.name}</a>`;
         });
+      }
+
+      const { data: products } = await supabase.from('products').select('*').ilike('category', '%building%');
+      if (!products || products.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #94a3b8;">Nta service ya Buildings irashyirwaho.</p>';
+        return;
+      }
+      allBuildings = products;
+      renderBuildings(allBuildings);
+
+      document.querySelectorAll('#buildings-tabs a').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          e.preventDefault();
+          document.querySelectorAll('#buildings-tabs a').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const mode = tab.getAttribute('data-mode');
+          if (mode === 'all') renderBuildings(allBuildings);
+          else renderBuildings(allBuildings.filter(p => (p.category || '').toLowerCase().includes(mode)));
+        });
+      });
     }
 
-    window.openSiteChat = function(serviceTitle) {
-        const chatBox = document.getElementById('chat-box');
-        const userInput = document.getElementById('chat-user-input');
-        if (chatBox) chatBox.style.display = 'block';
-        if (userInput) {
-            userInput.value = `Nshaka amakuru arambuye kuri service ya: ${serviceTitle}`;
-            userInput.focus();
-        }
-    };
+    function renderBuildings(items) {
+      const grid = document.getElementById('buildings-grid');
+      grid.innerHTML = '';
+      items.forEach(prod => {
+        const waUrl = `https://wa.me/${PHONE_WHATSAPP}?text=${encodeURIComponent(`Nshaka kubaza kuri service ya: "${prod.title}" (RWF ${prod.price}).`)}`;
+        grid.innerHTML += `
+          <div style="border: 1px solid #f1f5f9; border-radius: 12px; padding: 18px; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="width: 100%; height: 200px; background: #f8fafc; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px;">
+                <img src="${prod.image_url || 'https://via.placeholder.com/150'}" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <span style="font-size: 11px; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; display: block; margin-top: 12px;">${prod.category || 'Buildings'}</span>
+              <h4 style="margin: 4px 0 6px; font-size: 18px; color: #0f172a;">${prod.title}</h4>
+              <p style="color: #64748b; font-size: 13px; margin-bottom: 12px;">${prod.description || ''}</p>
+              <p style="font-weight: 700; color: #0f172a; font-size: 16px; margin-bottom: 15px;">RWF ${prod.price.toLocaleString()}</p>
+            </div>
+            <a href="${waUrl}" target="_blank" style="background: #0f172a; color: white; text-align: center; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 13px; display: block;">💬 Vugana kuri WhatsApp</a>
+          </div>
+        `;
+      });
+    }
 
-    loadBuildingsServices();
+    loadDynamicCategoriesAndBuildings();
   </script>
 </body>
 </html>
