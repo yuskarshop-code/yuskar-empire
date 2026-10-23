@@ -10,6 +10,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="enhancements.css">
+  <style>
+    .inventory-hero {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out;
+    }
+  </style>
 </head>
 <body class="motors-inventory-page">
   <header class="site-header">
@@ -26,7 +34,7 @@
   </header>
 
   <main>
-    <section class="inventory-hero">
+    <section class="inventory-hero" id="motors-hero-sec">
       <div class="shell">
         <p class="eyebrow">Yuskar Motors / Inventory</p>
         <h1 id="inventory-title">Vehicles ready<br><i>for the road.</i></h1>
@@ -36,7 +44,6 @@
 
     <section class="inventory-section shell">
       <div class="inventory-toolbar">
-        <!-- Category Tabs z'umwimerere zahoraho -->
         <div class="inventory-tabs" id="motor-tabs" role="tablist" aria-label="Motor inventory type">
           <a class="active" data-mode="all" href="#">All Vehicles</a>
           <a data-mode="buy" href="#">Buy cars</a>
@@ -45,7 +52,6 @@
         </div>
       </div>
 
-      <!-- Aho ibicuruzwa bya Supabase bizajya byisuka ukurikije category yabyo -->
       <div id="inventory-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 32px;"></div>
     </section>
   </main>
@@ -70,9 +76,30 @@
 
   <script src="script.js"></script>
 
-  <!-- Script ikurura ibicuruzwa bya Motors muri Supabase ikabihuza na za Tabs -->
   <script type="module">
     import { supabase } from './supabaseClient.js';
+
+    // DYNAMIC HERO BANNER LOADER
+    async function loadHeroBanner() {
+      try {
+        const { data } = await supabase
+          .from('page_sections')
+          .select('*')
+          .eq('section_key', 'motors_hero')
+          .single();
+
+        if (data) {
+          if (data.title) document.getElementById('inventory-title').innerHTML = data.title;
+          if (data.subtitle) document.getElementById('inventory-copy').textContent = data.subtitle;
+          if (data.image_url) {
+            document.getElementById('motors-hero-sec').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${data.image_url}')`;
+          }
+        }
+      } catch (e) {
+        console.error("Hero banner error:", e);
+      }
+    }
+    loadHeroBanner();
 
     let allMotors = [];
 
@@ -88,7 +115,7 @@
         if (error || !products || products.length === 0) {
             grid.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                    <p style="color: #666; font-size: 16px; margin-bottom: 10px;">Nta modoka cyangwa imodoka zishyizeho muri Database.</p>
+                    <p style="color: #666; font-size: 16px; margin-bottom: 10px;">Nta modoka zishyizeho muri Database.</p>
                     <a href="admin.html" style="color: #2563eb; text-decoration: underline; font-weight: bold;">Jya muri Admin Panel wongeramo imodoka ya mbere ↗</a>
                 </div>
             `;
@@ -124,7 +151,6 @@
         });
     }
 
-    // Gukoresha za Tabs zungurura amakuru
     document.querySelectorAll('#motor-tabs a').forEach(tab => {
         tab.addEventListener('click', (e) => {
             e.preventDefault();

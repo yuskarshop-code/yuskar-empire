@@ -11,6 +11,14 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="enhancements.css">
   <link rel="stylesheet" href="property.css">
+  <style>
+    .property-hero {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out;
+    }
+  </style>
 </head>
 <body class="property-page buildings-services-page">
   <header class="site-header">
@@ -27,11 +35,11 @@
   </header>
 
   <main>
-    <section class="property-hero">
+    <section class="property-hero" id="buildings-hero-sec">
       <div class="shell">
         <p class="eyebrow light">Yuskar Buildings / Services</p>
-        <h1>Build something<br><i>that lasts.</i></h1>
-        <p>Bring your next space from a first idea to a finished place with a team that understands the details.</p>
+        <h1 id="buildings-title">Build something<br><i>that lasts.</i></h1>
+        <p id="buildings-copy">Bring your next space from a first idea to a finished place with a team that understands the details.</p>
       </div>
     </section>
 
@@ -40,7 +48,6 @@
         <p>Architecture, design and guidance for your next build.</p>
       </div>
 
-      <!-- Services zizizanira ubwabyo muri Supabase zifite bouton zo kuyobora kuri WhatsApp / Chat -->
       <div id="buildings-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 32px;"></div>
     </section>
   </main>
@@ -69,7 +76,29 @@
   <script type="module">
     import { supabase } from './supabaseClient.js';
 
-    const PHONE_WHATSAPP = "250781652135"; // Umubare wa WhatsApp wa Yuskar Empire
+    // DYNAMIC HERO BANNER LOADER
+    async function loadHeroBanner() {
+      try {
+        const { data } = await supabase
+          .from('page_sections')
+          .select('*')
+          .eq('section_key', 'buildings_hero')
+          .single();
+
+        if (data) {
+          if (data.title) document.getElementById('buildings-title').innerHTML = data.title;
+          if (data.subtitle) document.getElementById('buildings-copy').textContent = data.subtitle;
+          if (data.image_url) {
+            document.getElementById('buildings-hero-sec').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('${data.image_url}')`;
+          }
+        }
+      } catch (e) {
+        console.error("Hero banner error:", e);
+      }
+    }
+    loadHeroBanner();
+
+    const PHONE_WHATSAPP = "250781652135";
 
     async function loadBuildingsServices() {
         const grid = document.getElementById('buildings-grid');
@@ -92,7 +121,6 @@
 
         grid.innerHTML = '';
         products.forEach(prod => {
-            // Text yo kwandikira WhatsApp irimo izina rya Service
             const waMessage = encodeURIComponent(`Mwaramutse/Mwiriwe! Nshaka kubaza ibyerekeye service ya: "${prod.title}" (Price: RWF ${prod.price}).`);
             const waUrl = `https://wa.me/${PHONE_WHATSAPP}?text=${waMessage}`;
 
@@ -107,7 +135,6 @@
                         <p style="font-weight: bold; color: #111; font-size: 16px; margin-bottom: 15px;">Starting from RWF ${prod.price}</p>
                     </div>
                     
-                    <!-- Boutons zo kuyobora umukiriya kuko ari Service -->
                     <div style="display: flex; gap: 8px; flex-direction: column;">
                         <a href="${waUrl}" target="_blank" style="background: #25D366; color: white; text-align: center; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
                             💬 Vugana n'ubishinzwe kuri WhatsApp
@@ -121,7 +148,6 @@
         });
     }
 
-    // Function yo gufungura Chat Widget yo ku site
     window.openSiteChat = function(serviceTitle) {
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('chat-user-input');
