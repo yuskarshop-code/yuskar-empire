@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Additional CSS for Auth Modal & Profile Avatar -->
   <style>
     /* Modal Backdrop */
     .auth-modal {
@@ -32,7 +31,6 @@
       display: flex;
     }
 
-    /* Modal Box */
     .auth-card {
       background: #ffffff;
       color: #111111;
@@ -45,7 +43,6 @@
       font-family: 'DM Sans', sans-serif;
     }
 
-    /* Close Button */
     .auth-close {
       position: absolute;
       top: 20px;
@@ -58,7 +55,6 @@
       line-height: 1;
     }
 
-    /* Header & Tabs */
     .auth-header {
       text-align: center;
       margin-bottom: 24px;
@@ -94,7 +90,6 @@
       border-bottom-color: #111;
     }
 
-    /* Form Elements */
     .auth-form {
       display: none;
       flex-direction: column;
@@ -124,11 +119,6 @@
       border-radius: 4px;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus {
-      border-color: #111;
     }
 
     .auth-submit-btn {
@@ -141,11 +131,6 @@
       font-size: 14px;
       cursor: pointer;
       margin-top: 8px;
-      transition: background 0.2s;
-    }
-
-    .auth-submit-btn:hover {
-      background: #333;
     }
 
     .auth-switch-text {
@@ -164,7 +149,6 @@
       cursor: pointer;
     }
 
-    /* Button inside Header & Profile Avatar */
     .header-account-btn {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -186,7 +170,6 @@
       background: rgba(255, 255, 255, 0.1);
     }
 
-    /* Profile Initial Circle Avatar */
     .profile-avatar {
       width: 28px;
       height: 28px;
@@ -198,6 +181,87 @@
       justify-content: center;
       font-weight: bold;
       font-size: 13px;
+    }
+
+    /* ADVERT SLIDER HERO SECTION (FULL RESPONSIVE FOR DESKTOP & MOBILE) */
+    .hero-advert-slider {
+      position: relative;
+      width: 100%;
+      height: 85vh;
+      min-height: 450px;
+      background: #0f172a;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .advert-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .advert-slide.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .advert-slide img, .advert-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .advert-shade {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 3;
+    }
+
+    .advert-content {
+      position: relative;
+      z-index: 4;
+      text-align: center;
+      color: #fff;
+      max-width: 800px;
+      padding: 0 16px;
+      width: 100%;
+    }
+
+    .advert-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 6vw, 56px);
+      margin: 0 0 12px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .advert-content p {
+      font-size: clamp(14px, 3.5vw, 18px);
+      color: #e2e8f0;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* MEDIA QUERIES KURI TELEFONI */
+    @media (max-width: 768px) {
+      .hero-advert-slider {
+        height: 75vh;
+        min-height: 400px;
+      }
+      .advert-content {
+        padding: 0 14px;
+      }
     }
   </style>
 </head>
@@ -214,10 +278,8 @@
     <div style="display: flex; align-items: center;">
       <a class="header-cta" href="mailto:yuskarshop@gmail.com">Start a conversation <span>↗</span></a>
       
-      <!-- ADMIN LINK MURI HEADER -->
       <a href="admin.html" id="public-admin-link" style="display: none; background: #2563eb; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; text-decoration: none; margin-left: 10px; font-family: inherit;">⚙️ Admin Dashboard</a>
 
-      <!-- ACCOUNT / PROFILE BUTTON -->
       <button class="header-account-btn" id="openAuthBtn">
         <span id="accountBtnText">Account</span>
       </button>
@@ -226,22 +288,18 @@
   </header>
 
   <main>
-    <section class="hero home-hero">
-      <div class="hero-shade"></div>
-      <div class="hero-content">
-        <p class="eyebrow light">One empire. Many possibilities.</p>
-        <h1>Move with<br><i>intention.</i></h1>
-        <p class="hero-copy">Yuskar Empire brings together the things that shape how we move, live, build and express ourselves[cite: 3].</p>
-        <a class="button button-light" href="#departments">Explore the empire <span>↓</span></a>
+    <!-- DYNAMIC ADVERT SLIDING HERO SECTION -->
+    <section class="hero-advert-slider" id="advertSliderContainer">
+      <div class="advert-slide active">
+        <div style="color: #94a3b8; position: relative; z-index: 4;">Gukurura amashusho na za video...</div>
       </div>
-      <p class="hero-note">EST. 2024 &nbsp; / &nbsp; KIGALI - RWANDA</p>
     </section>
 
     <section class="intro-section shell">
       <div class="section-label"><span>01</span><span>Our point of view</span></div>
       <div class="intro-grid">
         <h2>More than a<br><i>business.</i></h2>
-        <div><p class="lead"> The essentials of a considered life, with a distinctly African point of view and a standard that travels anywhere.</p><p>From the road beneath you to the roof over your head, Yuskar Empire connects people to quality opportunities, trusted expertise and a world of better choices[cite: 3].</p></div>
+        <div><p class="lead"> The essentials of a considered life, with a distinctly African point of view and a standard that travels anywhere.</p><p>From the road beneath you to the roof over your head, Yuskar Empire connects people to quality opportunities, trusted expertise and a world of better choices.</p></div>
       </div>
     </section>
 
@@ -262,7 +320,7 @@
     <div class="footer-top">
       <div class="brand-block">
         <a class="brand" href="index.html"><span class="brand-mark">Y</span><span>Yuskar <em>Empire</em></span></a>
-        <p>Mobility, spaces, land and style.<br>All under one roof[cite: 3].</p>
+        <p>Mobility, spaces, land and style.<br>All under one roof.</p>
       </div>
       <div class="footer-links">
         <h3>Quick links</h3>
@@ -289,22 +347,19 @@
     </div>
   </footer>
 
-  <!-- Account / Sign In & Register Modal Popup -->
+  <!-- Account Modal -->
   <div class="auth-modal" id="authModal">
     <div class="auth-card">
       <button class="auth-close" id="closeAuthBtn">&times;</button>
-      
       <div class="auth-header">
         <h2>Yuskar Empire</h2>
-        <p style="font-size: 14px; color: #666;">Access your personalized portfolio[cite: 3]</p>
+        <p style="font-size: 14px; color: #666;">Access your personalized portfolio</p>
       </div>
-
       <div class="auth-tabs">
         <button class="auth-tab active" id="loginTab">Sign In</button>
         <button class="auth-tab" id="registerTab">Create Account</button>
       </div>
 
-      <!-- Login Form -->
       <form class="auth-form active" id="loginForm">
         <div class="form-group">
           <label for="loginEmail">Email Address</label>
@@ -315,12 +370,9 @@
           <input type="password" id="loginPassword" placeholder="••••••••" required>
         </div>
         <button type="submit" class="auth-submit-btn">Sign In</button>
-        <p class="auth-switch-text">
-          Don't have an account? <button type="button" id="switchToRegister">Register</button>
-        </p>
+        <p class="auth-switch-text">Don't have an account? <button type="button" id="switchToRegister">Register</button></p>
       </form>
 
-      <!-- Register Form -->
       <form class="auth-form" id="registerForm">
         <div class="form-group">
           <label for="regName">Full Name</label>
@@ -339,9 +391,7 @@
           <input type="password" id="regPassword" placeholder="••••••••" required>
         </div>
         <button type="submit" class="auth-submit-btn">Create Account</button>
-        <p class="auth-switch-text">
-          Already have an account? <button type="button" id="switchToLogin">Sign In</button>
-        </p>
+        <p class="auth-switch-text">Already have an account? <button type="button" id="switchToLogin">Sign In</button></p>
       </form>
     </div>
   </div>
@@ -352,11 +402,9 @@
           <strong style="color: #111;">Chat on Site</strong>
           <button onclick="document.getElementById('chat-box').style.display='none'" style="border: none; background: transparent; cursor: pointer; font-size: 16px;">✕</button>
       </div>
-      
       <div id="chat-messages" style="height: 220px; overflow-y: auto; margin: 10px 0; padding: 8px; background: #f9f9f9; border-radius: 4px;">
           <p style="font-size: 12px; color: #777;">Shyiramo Email yawe ubashe kubona amateka y'ibiganiro (Chat History)...</p>
       </div>
-
       <input type="email" id="chat-user-email" placeholder="Email yawe..." style="width: 100%; margin-bottom: 6px; padding: 6px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
       <div style="display: flex; gap: 5px;">
           <input type="text" id="chat-user-input" placeholder="Andika ubutumwa..." style="flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
@@ -370,7 +418,6 @@
 
   <script src="script.js"></script>
 
-  <!-- Script ya Auth, Admin Link & Profile Avatar Integration -->
   <script type="module">
     import { supabase } from './supabaseClient.js';
 
@@ -378,44 +425,117 @@
     const openBtn = document.getElementById('openAuthBtn');
     const closeBtn = document.getElementById('closeAuthBtn');
     const accountBtnText = document.getElementById('accountBtnText');
-
-    const loginTab = document.getElementById('loginTab');
-    const registerTab = document.getElementById('registerTab');
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-
-    const switchToRegister = document.getElementById('switchToRegister');
-    const switchToLogin = document.getElementById('switchToLogin');
-
     const publicAdminLink = document.getElementById('public-admin-link');
     const ALLOWED_ADMIN_EMAILS = ['yuskarshop@gmail.com'];
+
+    // Load Advert Slides for Hero Section
+    async function loadAdvertSlides() {
+      const container = document.getElementById('advertSliderContainer');
+      try {
+        const { data, error } = await supabase
+          .from('page_sections')
+          .select('*')
+          .ilike('section_key', 'slide_%')
+          .order('section_key', { ascending: true });
+
+        if (error || !data || data.length === 0) {
+          container.innerHTML = '<div class="advert-slide active" style="justify-content: center; color: #fff; text-align: center;"><div class="advert-content"><h1>Yuskar Empire</h1><p>Nta byapa byo kwamamaza birashyirwaho muri Admin.</p></div></div>';
+          return;
+        }
+
+        container.innerHTML = '';
+        data.forEach((slide, index) => {
+          const activeClass = index === 0 ? 'active' : '';
+          const isVideo = slide.image_url && (slide.image_url.endsWith('.mp4') || slide.image_url.includes('video'));
+          
+          let mediaElement = isVideo 
+            ? `<video src="${slide.image_url}" autoplay muted playsinline></video>`
+            : `<img src="${slide.image_url}" alt="Hero Advert">`;
+
+          container.innerHTML += `
+            <div class="advert-slide ${activeClass}" data-is-video="${isVideo}">
+              ${mediaElement}
+              <div class="advert-shade"></div>
+              <div class="advert-content">
+                <h1>${slide.title || ''}</h1>
+                <p>${slide.subtitle || ''}</p>
+              </div>
+            </div>
+          `;
+        });
+
+        // SMART SLIDER CAROUSEL LOGIC WITH FULL VIDEO SYNC
+        const slides = container.querySelectorAll('.advert-slide');
+        let currentSlide = 0;
+        let slideTimeout;
+
+        function showNextSlide() {
+          const currentSlideEl = slides[currentSlide];
+          currentSlideEl.classList.remove('active');
+
+          const currentVideo = currentSlideEl.querySelector('video');
+          if (currentVideo) {
+            currentVideo.pause();
+            currentVideo.currentTime = 0;
+          }
+
+          currentSlide = (currentSlide + 1) % slides.length;
+          const nextSlideEl = slides[currentSlide];
+          nextSlideEl.classList.add('active');
+
+          playCurrentSlide();
+        }
+
+        function playCurrentSlide() {
+          if (slides.length <= 1) return;
+
+          const activeSlide = slides[currentSlide];
+          const isVideo = activeSlide.getAttribute('data-is-video') === 'true';
+          const videoEl = activeSlide.querySelector('video');
+
+          if (isVideo && videoEl) {
+            videoEl.currentTime = 0;
+            videoEl.play().catch(e => console.log("Autoplay:", e));
+
+            videoEl.onended = () => {
+              showNextSlide();
+            };
+          } else {
+            clearTimeout(slideTimeout);
+            slideTimeout = setTimeout(() => {
+              showNextSlide();
+            }, 6000);
+          }
+        }
+
+        playCurrentSlide();
+
+      } catch (e) {
+        console.error("Error loading slides:", e);
+      }
+    }
+
+    loadAdvertSlides();
 
     async function checkAdminStatus() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        
         if (session && session.user) {
           const email = session.user.email;
           const metaName = session.user.user_metadata?.full_name || email;
           const initial = metaName.charAt(0).toUpperCase();
-
-          // Hindura akabuto ka Account kabe Avatar irimo inyugutangiye (urugero: 'R')
           accountBtnText.innerHTML = `<span class="profile-avatar">${initial}</span> ${metaName.split(' ')[0]}`;
-
-          // Genzura niba ari admin
           if (publicAdminLink && ALLOWED_ADMIN_EMAILS.includes(email)) {
             publicAdminLink.style.display = 'inline-block';
-          } else {
-            if (publicAdminLink) publicAdminLink.style.display = 'none';
+          } else if (publicAdminLink) {
+            publicAdminLink.style.display = 'none';
           }
         } else {
           accountBtnText.textContent = 'Account';
           if (publicAdminLink) publicAdminLink.style.display = 'none';
         }
       } catch (e) {
-        console.error("Auth status error:", e);
         accountBtnText.textContent = 'Account';
-        if (publicAdminLink) publicAdminLink.style.display = 'none';
       }
     }
 
@@ -423,140 +543,48 @@
 
     openBtn.addEventListener('click', () => modal.classList.add('active'));
     closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
+    document.getElementById('loginTab').addEventListener('click', () => {
+      document.getElementById('loginTab').classList.add('active');
+      document.getElementById('registerTab').classList.remove('active');
+      document.getElementById('loginForm').classList.add('active');
+      document.getElementById('registerForm').classList.remove('active');
+    });
+    document.getElementById('registerTab').addEventListener('click', () => {
+      document.getElementById('registerTab').classList.add('active');
+      document.getElementById('loginTab').classList.remove('active');
+      document.getElementById('registerForm').classList.add('active');
+      document.getElementById('loginForm').classList.remove('active');
     });
 
-    function showLogin() {
-      loginTab.classList.add('active');
-      registerTab.classList.remove('active');
-      loginForm.classList.add('active');
-      registerForm.classList.remove('active');
-    }
-
-    function showRegister() {
-      registerTab.classList.add('active');
-      loginTab.classList.remove('active');
-      registerForm.classList.add('active');
-      loginForm.classList.remove('active');
-    }
-
-    loginTab.addEventListener('click', showLogin);
-    registerTab.addEventListener('click', showRegister);
-    switchToRegister.addEventListener('click', showRegister);
-    switchToLogin.addEventListener('click', showLogin);
-
-    // --- LOGIN SUBMISSION ---
-    loginForm.addEventListener('submit', async (e) => {
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
-
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        alert('Error: ' + error.message);
-      } else {
+      if (error) alert('Error: ' + error.message);
+      else {
         alert('Welcome back, ' + data.user.email);
         modal.classList.remove('active');
         await checkAdminStatus();
-        
-        if (ALLOWED_ADMIN_EMAILS.includes(data.user.email)) {
-          window.location.href = 'admin.html';
-        }
+        if (ALLOWED_ADMIN_EMAILS.includes(data.user.email)) window.location.href = 'admin.html';
       }
     });
 
-    // --- REGISTER SUBMISSION ---
-    registerForm.addEventListener('submit', async (e) => {
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('regEmail').value.trim();
       const password = document.getElementById('regPassword').value.trim();
       const name = document.getElementById('regName').value.trim();
       const phone = document.getElementById('regPhone').value.trim();
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { full_name: name, phone: phone } }
-      });
-
-      if (error) {
-        alert('Error: ' + error.message);
-      } else {
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: name, phone: phone } } });
+      if (error) alert('Error: ' + error.message);
+      else {
         await supabase.from('customers').insert([{ name, email, phone }]);
-        alert('Account created successfully! Check your email to confirm.');
+        alert('Account created successfully!');
         modal.classList.remove('active');
-        await checkAdminStatus();
       }
-    });
-  </script>
-
-  <!-- Chat Script -->
-  <script type="module">
-    import { supabase } from './supabaseClient.js';
-
-    const chatMessagesContainer = document.getElementById('chat-messages');
-    const userEmailInput = document.getElementById('chat-user-email');
-    const userInput = document.getElementById('chat-user-input');
-    const sendBtn = document.getElementById('send-chat-btn');
-    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xoeeakpo";
-
-    userEmailInput.addEventListener('change', async () => {
-        const clientEmail = userEmailInput.value.trim();
-        if (!clientEmail) return;
-
-        chatMessagesContainer.innerHTML = '<p style="font-size:12px;">Gukurura amateka...</p>';
-        const { data, error } = await supabase
-            .from('chat_messages')
-            .select('*')
-            .eq('client_identifier', clientEmail)
-            .order('created_at', { ascending: true });
-
-        if (error) return;
-
-        chatMessagesContainer.innerHTML = '';
-        if (data.length === 0) {
-            chatMessagesContainer.innerHTML = '<p style="font-size:12px; color:#777;">Nta biganiro bihari.</p>';
-        } else {
-            data.forEach(msg => {
-                const align = msg.sender === 'client' ? 'right' : 'left';
-                const bg = msg.sender === 'client' ? '#dcf8c6' : '#fff';
-                chatMessagesContainer.innerHTML += `
-                    <div style="text-align: ${align}; margin-bottom: 5px;">
-                        <span style="background: ${bg}; padding: 5px 8px; border-radius: 5px; font-size: 13px; display: inline-block;">
-                            <strong>${msg.sender === 'client' ? 'Wowe' : 'Admin'}:</strong> ${msg.message}
-                        </span>
-                    </div>
-                `;
-            });
-            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-        }
-    });
-
-    sendBtn.addEventListener('click', async () => {
-        const email = userEmailInput.value.trim();
-        const text = userInput.value.trim();
-        if (!email || !text) return;
-
-        try {
-            await supabase.from('chat_messages').insert([{ sender: 'client', client_identifier: email, message: text }]);
-            fetch(FORMSPREE_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, message: `Chat: ${email} - ${text}` })
-            }).catch(() => {});
-
-            chatMessagesContainer.innerHTML += `
-                <div style="text-align: right; margin-bottom: 5px;">
-                    <span style="background: #dcf8c6; padding: 5px 8px; border-radius: 5px; font-size: 13px; display: inline-block;">
-                        <strong>Wowe:</strong> ${text}
-                    </span>
-                </div>
-            `;
-            userInput.value = '';
-            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-        } catch (err) {}
     });
   </script>
 </body>

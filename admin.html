@@ -42,7 +42,6 @@
 </head>
 <body class="admin-body category-admin">
 
-  <!-- LOGIN OVERLAY -->
   <div class="admin-auth-backdrop" id="auth-overlay">
     <div class="admin-auth-card">
       <h1>Yuskar Admin</h1>
@@ -68,14 +67,15 @@
       <p>Control room</p>
       <button class="admin-tab active" data-tab="overview">Dashboard Analysis</button>
       <button class="admin-tab" data-tab="products-manage">Manage Products & Services</button>
-      <button class="admin-tab" data-tab="sections-manage">Edit Page Banners & Sections</button>
+      <button class="admin-tab" data-tab="adverts-manage">🎬 Advert Slideshow (Home)</button>
+      <button class="admin-tab" data-tab="banners-manage">🖼️ Edit Page Banners</button>
       <button class="admin-tab" data-tab="chat">Chat Inbox</button>
     </aside>
 
     <main class="admin-main">
       <h1>Run the empire.</h1>
       
-      <!-- DASHBOARD OVERVIEW -->
+      <!-- DASHBOARD ANALYTICS -->
       <section class="admin-section active" id="sec-overview">
         <h2>Dashboard Analytics</h2>
         <div class="metric-grid">
@@ -121,41 +121,79 @@
         </div>
       </section>
 
-      <!-- EDIT PAGE SECTIONS & BANNERS (TAB NSHYA) -->
-      <section class="admin-section" id="sec-sections-manage">
-        <h2>Edit Page Banners & Section Images</h2>
-        <p style="color: #94a3b8; margin-bottom: 20px;">Hindura amafoto n'umutwe w'amapaji (Hero section/Banners) ku mbuga zose.</p>
+      <!-- SECTION 1: MANAGE ADVERT SLIDESHOW (HOME HERO) -->
+      <section class="admin-section" id="sec-adverts-manage">
+        <h2>🎬 Home Page Advert Slideshow</h2>
+        <p style="color: #94a3b8; margin-bottom: 20px;">Hano ni aho uhindurira cyangwa wangerera ibyapa n'amavidewo byo kwamamaza (Auto-sliding Adverts) muri Main Hero ya Home Page.</p>
         
         <div style="background: #1e293b; padding: 25px; border-radius: 8px; color: white; max-width: 600px;">
-          <form id="updateSectionForm" style="display: flex; flex-direction: column; gap: 12px;">
+          <form id="updateAdvertForm" style="display: flex; flex-direction: column; gap: 12px;">
             <div class="form-group">
-              <label>Hitamo Paji cyangwa Section wifuza guhindura:</label>
-              <select id="sectionTarget" required>
-                <option value="">-- Hitamo Page Section --</option>
-                <option value="home_hero">Home Page - Main Hero Banner</option>
-                <option value="fashion_hero">Fashion Page - Top Banner Image</option>
-                <option value="motors_hero">Motors Page - Top Banner Image</option>
-                <option value="buildings_hero">Buildings Page - Top Banner Image</option>
-                <option value="plots_hero">Plots Page - Top Banner Image</option>
+              <label>Hitamo Umwanya wa Advert Slide:</label>
+              <select id="advertSlideKey" required>
+                <option value="">-- Hitamo Slide Position --</option>
+                <option value="slide_1">Advert Slide 1</option>
+                <option value="slide_2">Advert Slide 2</option>
+                <option value="slide_3">Advert Slide 3</option>
+                <option value="slide_4">Advert Slide 4</option>
+                <option value="slide_5">Advert Slide 5</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Umutwe / Title Nshya ya Section:</label>
-              <input type="text" id="sectionTitle" placeholder="Urugero: Welcome to Yuskar Luxury Motors">
+              <label>Umutwe w'Icyapa (Advert Headline):</label>
+              <input type="text" id="advertTitle" placeholder="Urugero: Special Offer on Luxury Motors">
             </div>
 
             <div class="form-group">
-              <label>Ubutumwa buherekeza (Subtitle / Description):</label>
-              <textarea id="sectionSubtitle" rows="2" placeholder="Urugero: Find the best land and cars in Rwanda..."></textarea>
+              <label>Ibisobanuro mu nshamake (Advert Description):</label>
+              <textarea id="advertSubtitle" rows="2" placeholder="Urugero: Buy land or rent high-end vehicles at discounted rates this month."></textarea>
             </div>
 
             <div class="form-group">
-              <label>Hitamo Ifoto Nshya ya Banner (Image File):</label>
-              <input type="file" id="sectionImage" accept="image/*" required>
+              <label>Shyiraho Ifoto cyangwa Video (MP4):</label>
+              <input type="file" id="advertMedia" accept="image/*,video/mp4" required>
             </div>
 
-            <button type="submit" style="padding: 12px; background: #22c55e; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Update Section Image</button>
+            <button type="submit" style="padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Publish Advert Slide</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- SECTION 2: EDIT PAGE BANNERS -->
+      <section class="admin-section" id="sec-banners-manage">
+        <h2>🖼️ Edit Page Static Banners</h2>
+        <p style="color: #94a3b8; margin-bottom: 20px;">Hano uhasanga gusa uburyo bwo guhindura amafoto na za Subtitles z'imitwe (Hero Banners) z'amapaji y'amashami.</p>
+        
+        <div style="background: #1e293b; padding: 25px; border-radius: 8px; color: white; max-width: 600px;">
+          <form id="updateBannerForm" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-group">
+              <label>Hitamo Paji wifuza guhindurira Banner:</label>
+              <select id="bannerPageTarget" required>
+                <option value="">-- Hitamo Page --</option>
+                <option value="motors_hero">Motors Page Banner</option>
+                <option value="buildings_hero">Buildings Page Banner</option>
+                <option value="plots_hero">Plots Page Banner</option>
+                <option value="fashion_hero">Fashion Page Banner</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Umutwe mushya wa Paji (Banner Title):</label>
+              <input type="text" id="bannerTitle" placeholder="Urugero: Premium Properties & Real Estate">
+            </div>
+
+            <div class="form-group">
+              <label>Ubutumwa buherekeza (Banner Subtitle):</label>
+              <textarea id="bannerSubtitle" rows="2" placeholder="Urugero: Explore top-tier plots and construction services in Rwanda."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Hitamo Ifoto nshya ya Banner Image:</label>
+              <input type="file" id="bannerImage" accept="image/*" required>
+            </div>
+
+            <button type="submit" style="padding: 12px; background: #22c55e; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Update Page Banner</button>
           </form>
         </div>
       </section>
@@ -185,7 +223,7 @@
 
     const ALLOWED_ADMIN_EMAIL = 'yuskarshop@gmail.com';
 
-    // Tabs switching
+    // Navigation Tabs Switcher
     const tabs = document.querySelectorAll('.admin-tab');
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -227,16 +265,14 @@
       try {
         const orders = await fetchOrders();
         if (orders) document.getElementById('admin-order-count').textContent = orders.length;
-
         const { count: productCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
         if (productCount !== null) document.getElementById('admin-item-count').textContent = productCount;
-
         const { count: chatCount } = await supabase.from('chat_messages').select('*', { count: 'exact', head: true });
         if (chatCount !== null) document.getElementById('admin-chat-count').textContent = chatCount;
       } catch (e) { console.error(e); }
     }
 
-    // Product Upload
+    // Add Product Handler
     const productForm = document.getElementById('addProductForm');
     productForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -256,16 +292,47 @@
       } catch (err) { alert('Byanze: ' + err.message); }
     });
 
-    // Section Banner Update
-    const sectionForm = document.getElementById('updateSectionForm');
-    sectionForm.addEventListener('submit', async (e) => {
+    // 1. MANAGE ADVERT SLIDESHOW FORM
+    const advertForm = document.getElementById('updateAdvertForm');
+    advertForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       try {
-        alert('Tegereza, kohereza ifoto nshya ya Banner...');
-        const sectionKey = document.getElementById('sectionTarget').value;
-        const title = document.getElementById('sectionTitle').value;
-        const subtitle = document.getElementById('sectionSubtitle').value;
-        const imageFile = document.getElementById('sectionImage').files[0];
+        alert('Tegereza, kohereza Advert Slide...');
+        const sectionKey = document.getElementById('advertSlideKey').value;
+        const title = document.getElementById('advertTitle').value;
+        const subtitle = document.getElementById('advertSubtitle').value;
+        const mediaFile = document.getElementById('advertMedia').files[0];
+
+        const mediaUrl = await uploadProductImage(mediaFile);
+
+        const { error } = await supabase
+          .from('page_sections')
+          .upsert({ 
+            section_key: sectionKey, 
+            title: title, 
+            subtitle: subtitle, 
+            image_url: mediaUrl 
+          }, { onConflict: 'section_key' });
+
+        if (error) throw error;
+
+        alert('Advert Slide ' + sectionKey + ' yaguzwe neza muri Home Hero!');
+        advertForm.reset();
+      } catch (err) {
+        alert('Byanze guhinduka: ' + err.message);
+      }
+    });
+
+    // 2. MANAGE STATIC BANNERS FORM
+    const bannerForm = document.getElementById('updateBannerForm');
+    bannerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        alert('Tegereza, kohereza Page Banner image...');
+        const sectionKey = document.getElementById('bannerPageTarget').value;
+        const title = document.getElementById('bannerTitle').value;
+        const subtitle = document.getElementById('bannerSubtitle').value;
+        const imageFile = document.getElementById('bannerImage').files[0];
 
         const imageUrl = await uploadProductImage(imageFile);
 
@@ -280,8 +347,8 @@
 
         if (error) throw error;
 
-        alert('Banner na Section Image byahinduwe neza muri Supabase!');
-        sectionForm.reset();
+        alert('Page Banner yahinduwe neza!');
+        bannerForm.reset();
       } catch (err) {
         alert('Byanze guhinduka: ' + err.message);
       }
