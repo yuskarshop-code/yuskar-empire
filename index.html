@@ -27,9 +27,7 @@
       padding: 20px;
     }
 
-    .auth-modal.active {
-      display: flex;
-    }
+    .auth-modal.active { display: flex; }
 
     .auth-card {
       background: #ffffff;
@@ -55,135 +53,41 @@
       line-height: 1;
     }
 
-    .auth-header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .auth-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-
-    .auth-tabs {
-      display: flex;
-      border-bottom: 1px solid #eee;
-      margin-bottom: 24px;
-    }
-
+    .auth-header { text-align: center; margin-bottom: 24px; }
+    .auth-header h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
+    .auth-tabs { display: flex; border-bottom: 1px solid #eee; margin-bottom: 24px; }
     .auth-tab {
-      flex: 1;
-      padding: 12px;
-      background: none;
-      border: none;
-      font-weight: 600;
-      font-size: 14px;
-      color: #888;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.3s ease;
+      flex: 1; padding: 12px; background: none; border: none; font-weight: 600;
+      font-size: 14px; color: #888; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.3s ease;
     }
-
-    .auth-tab.active {
-      color: #111;
-      border-bottom-color: #111;
-    }
-
-    .auth-form {
-      display: none;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .auth-form.active {
-      display: flex;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      text-align: left;
-    }
-
-    .form-group label {
-      font-size: 13px;
-      font-weight: 500;
-      color: #444;
-    }
-
-    .form-group input {
-      padding: 12px 14px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-      outline: none;
-    }
+    .auth-tab.active { color: #111; border-bottom-color: #111; }
+    .auth-form { display: none; flex-direction: column; gap: 16px; }
+    .auth-form.active { display: flex; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; text-align: left; }
+    .form-group label { font-size: 13px; font-weight: 500; color: #444; }
+    .form-group input { padding: 12px 14px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; outline: none; }
 
     .auth-submit-btn {
-      background: #111;
-      color: #fff;
-      padding: 14px;
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 8px;
+      background: #111; color: #fff; padding: 14px; border: none; border-radius: 4px;
+      font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 8px;
     }
 
-    .auth-switch-text {
-      font-size: 13px;
-      text-align: center;
-      margin-top: 16px;
-      color: #666;
-    }
-
-    .auth-switch-text button {
-      background: none;
-      border: none;
-      color: #111;
-      font-weight: 600;
-      text-decoration: underline;
-      cursor: pointer;
-    }
+    .auth-switch-text { font-size: 13px; text-align: center; margin-top: 16px; color: #666; }
+    .auth-switch-text button { background: none; border: none; color: #111; font-weight: 600; text-decoration: underline; cursor: pointer; }
 
     .header-account-btn {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: inherit;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-      margin-left: 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: inherit;
+      padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;
+      transition: all 0.2s; font-family: inherit; margin-left: 10px; display: inline-flex; align-items: center; gap: 6px;
     }
-
-    .header-account-btn:hover {
-      border-color: #fff;
-      background: rgba(255, 255, 255, 0.1);
-    }
+    .header-account-btn:hover { border-color: #fff; background: rgba(255, 255, 255, 0.1); }
 
     .profile-avatar {
-      width: 28px;
-      height: 28px;
-      background: #2563eb;
-      color: white;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 13px;
+      width: 28px; height: 28px; background: #2563eb; color: white; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px;
     }
 
-    /* ADVERT SLIDER HERO SECTION (FULL RESPONSIVE FOR DESKTOP & MOBILE) */
+    /* ADVERT SLIDER HERO SECTION (MEDIA GUSA) */
     .hero-advert-slider {
       position: relative;
       width: 100%;
@@ -198,10 +102,8 @@
 
     .advert-slide {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       opacity: 0;
       transition: opacity 0.8s ease-in-out;
       display: flex;
@@ -209,59 +111,35 @@
       justify-content: center;
     }
 
-    .advert-slide.active {
-      opacity: 1;
-      z-index: 2;
-    }
+    .advert-slide.active { opacity: 1; z-index: 2; }
+    .advert-slide img, .advert-slide video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .advert-slide img, .advert-slide video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .advert-shade {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      z-index: 3;
-    }
-
-    .advert-content {
-      position: relative;
-      z-index: 4;
-      text-align: center;
+    /* SECTION IGARE KURI TITLE NA SUBTITLE HASI Y'A HERO */
+    .slide-info-section {
+      background: #1e293b;
       color: #fff;
-      max-width: 800px;
-      padding: 0 16px;
-      width: 100%;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+      display: none; /* Izajya igaragara ari uko ifite amakuru */
     }
 
-    .advert-content h1 {
+    .slide-info-section h2 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 6vw, 56px);
-      margin: 0 0 12px;
-      font-weight: 700;
-      line-height: 1.2;
+      font-size: clamp(24px, 4vw, 36px);
+      margin: 0 0 8px;
+      color: #f8fafc;
     }
 
-    .advert-content p {
-      font-size: clamp(14px, 3.5vw, 18px);
-      color: #e2e8f0;
-      margin: 0;
-      line-height: 1.4;
+    .slide-info-section p {
+      font-size: clamp(14px, 2.5vw, 16px);
+      color: #94a3b8;
+      max-width: 700px;
+      margin: 0 auto;
     }
 
-    /* MEDIA QUERIES KURI TELEFONI */
     @media (max-width: 768px) {
-      .hero-advert-slider {
-        height: 75vh;
-        min-height: 400px;
-      }
-      .advert-content {
-        padding: 0 14px;
-      }
+      .hero-advert-slider { height: 70vh; min-height: 380px; }
     }
   </style>
 </head>
@@ -277,29 +155,31 @@
     </nav>
     <div style="display: flex; align-items: center;">
       <a class="header-cta" href="mailto:yuskarshop@gmail.com">Start a conversation <span>↗</span></a>
-      
       <a href="admin.html" id="public-admin-link" style="display: none; background: #2563eb; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; text-decoration: none; margin-left: 10px; font-family: inherit;">⚙️ Admin Dashboard</a>
-
-      <button class="header-account-btn" id="openAuthBtn">
-        <span id="accountBtnText">Account</span>
-      </button>
+      <button class="header-account-btn" id="openAuthBtn"><span id="accountBtnText">Account</span></button>
     </div>
     <button class="menu-toggle" aria-label="Open navigation">☰</button>
   </header>
 
   <main>
-    <!-- DYNAMIC ADVERT SLIDING HERO SECTION -->
+    <!-- HERO SECTION (MEDIA GUSA) -->
     <section class="hero-advert-slider" id="advertSliderContainer">
       <div class="advert-slide active">
         <div style="color: #94a3b8; position: relative; z-index: 4;">Gukurura amashusho na za video...</div>
       </div>
     </section>
 
+    <!-- SECTION Y'INSI YA HERO (IZAJYA YIKURURA DYAMICALLY) -->
+    <section class="slide-info-section" id="slideInfoSection">
+      <h2 id="slideInfoTitle"></h2>
+      <p id="slideInfoSubtitle"></p>
+    </section>
+
     <section class="intro-section shell">
       <div class="section-label"><span>01</span><span>Our point of view</span></div>
       <div class="intro-grid">
         <h2>More than a<br><i>business.</i></h2>
-        <div><p class="lead"> The essentials of a considered life, with a distinctly African point of view and a standard that travels anywhere.</p><p>From the road beneath you to the roof over your head, Yuskar Empire connects people to quality opportunities, trusted expertise and a world of better choices.</p></div>
+        <div><p class="lead"> The essentials of a considered life, with a distinctly African point of view and a standard that travels anywhere.</p><p>From the road beneath you to the roof over your head, Yuskar Empire connects people to quality opportunities, trusted expertise and a world of better choices[cite: 3].</p></div>
       </div>
     </section>
 
@@ -320,7 +200,7 @@
     <div class="footer-top">
       <div class="brand-block">
         <a class="brand" href="index.html"><span class="brand-mark">Y</span><span>Yuskar <em>Empire</em></span></a>
-        <p>Mobility, spaces, land and style.<br>All under one roof.</p>
+        <p>Mobility, spaces, land and style.<br>All under one roof[cite: 3].</p>
       </div>
       <div class="footer-links">
         <h3>Quick links</h3>
@@ -353,7 +233,7 @@
       <button class="auth-close" id="closeAuthBtn">&times;</button>
       <div class="auth-header">
         <h2>Yuskar Empire</h2>
-        <p style="font-size: 14px; color: #666;">Access your personalized portfolio</p>
+        <p style="font-size: 14px; color: #666;">Access your personalized portfolio[cite: 3]</p>
       </div>
       <div class="auth-tabs">
         <button class="auth-tab active" id="loginTab">Sign In</button>
@@ -396,26 +276,6 @@
     </div>
   </div>
 
-  <!-- Chat Widget -->
-  <div id="chat-box" style="position: fixed; bottom: 20px; right: 20px; width: 320px; background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 12px; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; font-family: sans-serif;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-          <strong style="color: #111;">Chat on Site</strong>
-          <button onclick="document.getElementById('chat-box').style.display='none'" style="border: none; background: transparent; cursor: pointer; font-size: 16px;">✕</button>
-      </div>
-      <div id="chat-messages" style="height: 220px; overflow-y: auto; margin: 10px 0; padding: 8px; background: #f9f9f9; border-radius: 4px;">
-          <p style="font-size: 12px; color: #777;">Shyiramo Email yawe ubashe kubona amateka y'ibiganiro (Chat History)...</p>
-      </div>
-      <input type="email" id="chat-user-email" placeholder="Email yawe..." style="width: 100%; margin-bottom: 6px; padding: 6px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-      <div style="display: flex; gap: 5px;">
-          <input type="text" id="chat-user-input" placeholder="Andika ubutumwa..." style="flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-          <button id="send-chat-btn" style="background: #111; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-weight: bold;">Kohereza</button>
-      </div>
-  </div>
-
-  <button onclick="document.getElementById('chat-box').style.display='block'" style="position: fixed; bottom: 20px; right: 20px; background: #111; color: #fff; border: none; padding: 12px 18px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 9998; font-weight: 600;">
-      💬 Chat on Site
-  </button>
-
   <script src="script.js"></script>
 
   <script type="module">
@@ -428,7 +288,10 @@
     const publicAdminLink = document.getElementById('public-admin-link');
     const ALLOWED_ADMIN_EMAILS = ['yuskarshop@gmail.com'];
 
-    // Load Advert Slides for Hero Section
+    const slideInfoSection = document.getElementById('slideInfoSection');
+    const slideInfoTitle = document.getElementById('slideInfoTitle');
+    const slideInfoSubtitle = document.getElementById('slideInfoSubtitle');
+
     async function loadAdvertSlides() {
       const container = document.getElementById('advertSliderContainer');
       try {
@@ -439,7 +302,8 @@
           .order('section_key', { ascending: true });
 
         if (error || !data || data.length === 0) {
-          container.innerHTML = '<div class="advert-slide active" style="justify-content: center; color: #fff; text-align: center;"><div class="advert-content"><h1>Yuskar Empire</h1><p>Nta byapa byo kwamamaza birashyirwaho muri Admin.</p></div></div>';
+          container.innerHTML = '<div class="advert-slide active" style="justify-content: center; color: #fff; text-align: center;"><h1>Yuskar Empire</h1></div>';
+          slideInfoSection.style.display = 'none';
           return;
         }
 
@@ -453,21 +317,31 @@
             : `<img src="${slide.image_url}" alt="Hero Advert">`;
 
           container.innerHTML += `
-            <div class="advert-slide ${activeClass}" data-is-video="${isVideo}">
+            <div class="advert-slide ${activeClass}" 
+                 data-is-video="${isVideo}" 
+                 data-title="${slide.title || ''}" 
+                 data-subtitle="${slide.subtitle || ''}">
               ${mediaElement}
-              <div class="advert-shade"></div>
-              <div class="advert-content">
-                <h1>${slide.title || ''}</h1>
-                <p>${slide.subtitle || ''}</p>
-              </div>
             </div>
           `;
         });
 
-        // SMART SLIDER CAROUSEL LOGIC WITH FULL VIDEO SYNC
         const slides = container.querySelectorAll('.advert-slide');
         let currentSlide = 0;
         let slideTimeout;
+
+        function updateInfoBox(slideEl) {
+          const title = slideEl.getAttribute('data-title');
+          const subtitle = slideEl.getAttribute('data-subtitle');
+
+          if (title || subtitle) {
+            slideInfoTitle.textContent = title;
+            slideInfoSubtitle.textContent = subtitle;
+            slideInfoSection.style.display = 'block';
+          } else {
+            slideInfoSection.style.display = 'none';
+          }
+        }
 
         function showNextSlide() {
           const currentSlideEl = slides[currentSlide];
@@ -487,9 +361,13 @@
         }
 
         function playCurrentSlide() {
-          if (slides.length <= 1) return;
+          if (slides.length === 0) return;
 
           const activeSlide = slides[currentSlide];
+          updateInfoBox(activeSlide);
+
+          if (slides.length <= 1) return;
+
           const isVideo = activeSlide.getAttribute('data-is-video') === 'true';
           const videoEl = activeSlide.querySelector('video');
 
